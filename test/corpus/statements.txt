@@ -1,0 +1,41 @@
+==================
+Assignment
+==================
+set -g @resurrect-strategy-nvim 'session'
+---
+
+(program
+  (statement
+    (command_statement
+      (command)
+        (command_args
+          (command_flag)
+          (command_arg)
+          (command_arg)))))
+
+==================
+Assignment
+==================
+a=5
+a=6
+---
+
+(program
+  (statement
+    (assignment_statement
+      (var_name)
+      (exp_value)))
+  (statement
+    (assignment_statement
+      (var_name)
+      (exp_value))))
+
+==================
+Comment
+==================
+# a comment
+---
+
+(program
+  (statement
+    (comment)))

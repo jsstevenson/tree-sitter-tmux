@@ -13,42 +13,17 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "exp"
-        },
-        {
-          "type": "SYMBOL",
           "name": "command_statement"
-        }
-      ]
-    },
-    "exp": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "variable"
         },
         {
           "type": "SYMBOL",
-          "name": "eq_operator"
+          "name": "assignment_statement"
         },
         {
           "type": "SYMBOL",
-          "name": "aexp"
+          "name": "comment"
         }
       ]
-    },
-    "eq_operator": {
-      "type": "PATTERN",
-      "value": "="
-    },
-    "variable": {
-      "type": "PATTERN",
-      "value": "[a-z][a-zA-Z0-9_]*"
-    },
-    "aexp": {
-      "type": "PATTERN",
-      "value": "\"?.+\"?"
     },
     "command_statement": {
       "type": "SEQ",
@@ -58,18 +33,126 @@
           "name": "command"
         },
         {
-          "type": "SYMBOL",
-          "name": "args"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "command_args"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
     "command": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "set"
+        },
+        {
+          "type": "STRING",
+          "value": "set-option"
+        },
+        {
+          "type": "STRING",
+          "value": "bind"
+        },
+        {
+          "type": "STRING",
+          "value": "bind-key"
+        },
+        {
+          "type": "STRING",
+          "value": "run"
+        }
+      ]
+    },
+    "command_args": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "command_flag"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "command_arg"
+          }
+        ]
+      }
+    },
+    "command_flag": {
+      "type": "PATTERN",
+      "value": "--?[a-zA-Z]+"
+    },
+    "command_arg": {
+      "type": "PATTERN",
+      "value": "\\S+"
+    },
+    "assignment_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "var_name"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "exp_value"
+        }
+      ]
+    },
+    "var_name": {
+      "type": "PATTERN",
+      "value": "[a-z][a-zA-Z0-9_]*"
+    },
+    "aexp": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "quoted_exp_value"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "exp_value"
+        }
+      ]
+    },
+    "quoted_exp_value": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\""
+        },
+        {
+          "type": "SYMBOL",
+          "name": "exp_value"
+        },
+        {
+          "type": "STRING",
+          "value": "\""
+        }
+      ]
+    },
+    "exp_value": {
       "type": "PATTERN",
       "value": ".+"
     },
-    "args": {
+    "comment": {
       "type": "PATTERN",
-      "value": ".+"
+      "value": "#.*"
     }
   },
   "extras": [
